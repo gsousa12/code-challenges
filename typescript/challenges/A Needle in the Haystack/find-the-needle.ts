@@ -14,7 +14,9 @@ Example(Input --> Output)
 */
 
 /**
- * @param {string[]} needleArray
+ * Função que recebe um array de string e em qual index
+ * está a string === 'needle' se existir
+ * @param {string[]} needleArray - Array de string
  */
 
 export const findNeedle = (needleArray: string[]): string => {
