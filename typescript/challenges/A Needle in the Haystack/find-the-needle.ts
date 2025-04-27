@@ -17,21 +17,9 @@ Example(Input --> Output)
  * @param {string[]} needleArray
  */
 
-const findNeedle = (needleArray: string[]): string => {
+export const findNeedle = (needleArray: string[]): string => {
   const index = needleArray.indexOf("needle");
-  if (index !== -1) return `found the needle at position ${index}`;
+  if (index !== -1) return `Found the needle at position ${index}`;
 
-  return "needle not exist in given array";
+  return "Needle not exist in given array";
 };
-
-// Teste
-const testArray = [
-  "hay",
-  "junk",
-  "hay",
-  "hay",
-  "moreJunk",
-  "needle",
-  "randomJunk",
-];
-console.log(findNeedle(testArray));
