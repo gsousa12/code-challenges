@@ -1,4 +1,4 @@
-import { findNeedle } from "../challenges/A Needle in the Haystack/find-the-needle";
+import { findNeedle } from "../../fundamentals/01 - easy/A Needle in the Haystack/find-the-needle";
 
 const generateNeedleArray = (n: number): string[] => {
   const array: string[] = Array(n).fill("junk");
