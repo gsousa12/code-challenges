@@ -9,20 +9,20 @@ type LogRunResult<T> = {
 
 /* ─── ANSI helpers ─── */
 const C = {
-  reset: "\x1b[0m",
-  bold: "\x1b[1m",
-  dim: "\x1b[2m",
-  red: "\x1b[31m",
-  green: "\x1b[32m",
-  yellow: "\x1b[33m",
-  cyan: "\x1b[36m",
-  white: "\x1b[37m",
-  gray: "\x1b[90m",
+  reset: '\x1b[0m',
+  bold: '\x1b[1m',
+  dim: '\x1b[2m',
+  red: '\x1b[31m',
+  green: '\x1b[32m',
+  yellow: '\x1b[33m',
+  cyan: '\x1b[36m',
+  white: '\x1b[37m',
+  gray: '\x1b[90m',
 };
 
 function stripAnsi(str: string): string {
   // eslint-disable-next-line no-control-regex
-  return str.replace(/\x1b\[[0-9;]*m/g, "");
+  return str.replace(/\x1b\[[0-9;]*m/g, '');
 }
 
 function color(label: string, value: string, colorCode: string): string {
@@ -31,15 +31,15 @@ function color(label: string, value: string, colorCode: string): string {
 
 /* ─── value formatter ─── */
 function formatValue(value: unknown): string {
-  if (value === undefined) return "undefined";
-  if (value === null) return "null";
-  if (typeof value === "string") return `"${value}"`;
-  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  if (value === undefined) return 'undefined';
+  if (value === null) return 'null';
+  if (typeof value === 'string') return `"${value}"`;
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
   if (Array.isArray(value)) {
-    const items = value.map(formatValue).join(", ");
+    const items = value.map(formatValue).join(', ');
     return `[${items}]`;
   }
-  if (typeof value === "object") {
+  if (typeof value === 'object') {
     try {
       return JSON.stringify(value);
     } catch {
@@ -51,23 +51,17 @@ function formatValue(value: unknown): string {
 
 /* ─── pretty boxed printer ─── */
 function printBoxedLog(result: LogRunResult<unknown>): void {
-  const fnName = result.functionName || "anonymous";
-  const inputStr = result.input.map(formatValue).join(", ");
+  const fnName = result.functionName || 'anonymous';
+  const inputStr = result.input.map(formatValue).join(', ');
   const outputStr = formatValue(result.output);
   const timeStr = `${result.executionTimeMs.toFixed(4)} ms`;
 
   const coloredLines = [
-    color("Function :", fnName, C.cyan + C.bold),
-    color("Input    :", inputStr, C.gray),
-    color("Output   :", outputStr, C.white),
+    color('Function :', fnName, C.cyan + C.bold),
+    color('Input    :', inputStr, C.gray),
+    color('Output   :', outputStr, C.white),
     ...(result.expectedResult !== undefined
-      ? [
-          color(
-            "Expected :",
-            formatValue(result.expectedResult),
-            C.white
-          ),
-        ]
+      ? [color('Expected :', formatValue(result.expectedResult), C.white)]
       : []),
     ...(result.isMatch !== undefined
       ? [
@@ -76,7 +70,7 @@ function printBoxedLog(result: LogRunResult<unknown>): void {
             : `${C.dim}Status   :${C.reset} ${C.red}${C.bold}FAIL${C.reset}`,
         ]
       : []),
-    color("Duration :", timeStr, C.yellow),
+    color('Duration :', timeStr, C.yellow),
   ];
 
   const visibleLengths = coloredLines.map((l) => stripAnsi(l).length);
@@ -86,9 +80,7 @@ function printBoxedLog(result: LogRunResult<unknown>): void {
   console.log(`${C.gray}┌${C.reset}${border}${C.gray}┐${C.reset}`);
   for (const line of coloredLines) {
     const pad = maxLen - stripAnsi(line).length;
-    console.log(
-      `${C.gray}│${C.reset}  ${line}${" ".repeat(pad)}  ${C.gray}│${C.reset}`
-    );
+    console.log(`${C.gray}│${C.reset}  ${line}${' '.repeat(pad)}  ${C.gray}│${C.reset}`);
   }
   console.log(`${C.gray}└${C.reset}${border}${C.gray}┘${C.reset}`);
 }
@@ -126,9 +118,7 @@ export function logger<T extends (...args: any[]) => any>(
   const arity = fn.length;
   const hasExpected = allArgs.length === arity + 1;
 
-  const expectedResult = hasExpected
-    ? (allArgs.pop() as ReturnType<T>)
-    : undefined;
+  const expectedResult = hasExpected ? (allArgs.pop() as ReturnType<T>) : undefined;
   const args = allArgs as unknown as Parameters<T>;
 
   const start = performance.now();
@@ -175,6 +165,5 @@ export function logger<T extends (...args: any[]) => any>(
  * // Output: twoSum([2, 7, 11, 15], 9) → [0, 1] | Expected: [0, 1] | PASS
  */
 export function withLog<T extends (...args: any[]) => any>(fn: T) {
-  return (...allArgs: [...Parameters<T>, ReturnType<T>?]): ReturnType<T> =>
-    logger(fn, ...allArgs);
+  return (...allArgs: [...Parameters<T>, ReturnType<T>?]): ReturnType<T> => logger(fn, ...allArgs);
 }
