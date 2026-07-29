@@ -16,4 +16,8 @@ function twoSum(nums: number[], target: number): number[] {
   return [];
 }
 
-logger(twoSum, [2, 7, 11, 15], 26);
+const arr1 = [2, 7, 11, 15];
+const target1 = 26;
+const expected1 = [2, 3]
+
+logger(twoSum, arr1, target1, expected1);
