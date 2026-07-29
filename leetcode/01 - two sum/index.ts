@@ -1,5 +1,8 @@
-import { logger } from "#utils/log-util";
+import { logger } from '#utils/log-util';
 
+/**
+ * @link https://leetcode.com/problems/two-sum/
+ */
 function twoSum(nums: number[], target: number): number[] {
   const map = new Map<number, number>();
 
@@ -18,6 +21,6 @@ function twoSum(nums: number[], target: number): number[] {
 
 const arr1 = [2, 7, 11, 15];
 const target1 = 26;
-const expected1 = [2, 3]
+const expected1 = [2, 3];
 
 logger(twoSum, arr1, target1, expected1);
