@@ -1,0 +1,10 @@
+{
+  "ignorePatterns": ["node_modules", "dist"],
+  "env": {
+    "browser": false,
+    "node": true
+  },
+  "rules": {
+    "eqeqeq": "error"
+  }
+}
